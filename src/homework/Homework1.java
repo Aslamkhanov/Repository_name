@@ -24,12 +24,9 @@ public class Homework1 {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введите первое число");
         double firstNumber = scanner.nextDouble();
-
         System.out.println("Введите знак операции - \"+\", \"-\", \"*\", \"/\"");
         scanner.nextLine();
         String operationSign = scanner.nextLine();
-
-
         System.out.println("Введите второе число");
         double secondNumber = scanner.nextDouble();
 
@@ -141,23 +138,38 @@ public class Homework1 {
         BigDecimal sausageConsumption = costOfSausage.multiply(sausages);
         BigDecimal hamConsumption = hamOfCost.multiply(ham);
         BigDecimal neckFlow = cervixOfCost.multiply(cervix);
-
         BigDecimal consumption = sausageConsumption.add(hamConsumption)
                 .add(neckFlow).add(new BigDecimal("1000000.0"));
+        BigDecimal profitBeforeTax = income.subtract(consumption);  // прибыль до налогообложения.
+        BigDecimal profit = profitBeforeTax;
 
-        BigDecimal profitBeforeTax = income.subtract(consumption);
+        BigDecimal taxRate1 = new BigDecimal("8.0");
+        BigDecimal taxRate2 = new BigDecimal("10.0");
+        BigDecimal taxRate3 = new BigDecimal("13.0");
+        BigDecimal tax1 = BigDecimal.ZERO;
+        BigDecimal tax2 = BigDecimal.ZERO;
+        BigDecimal tax3 = BigDecimal.ZERO;
+        BigDecimal threshold = new BigDecimal("1000000.0");
 
-        BigDecimal taxRate = BigDecimal.ZERO;
-
-        if (profitBeforeTax.compareTo(new BigDecimal("2000000.0")) > 0) {
-            taxRate = new BigDecimal("13.0");
-        } else if (profitBeforeTax.compareTo(new BigDecimal("1000000.0")) > 0 &&
-                profitBeforeTax.compareTo(new BigDecimal("2000000.0")) <= 0) {
-            taxRate = new BigDecimal("10.0");
-        } else if (profitBeforeTax.compareTo(new BigDecimal("1000000.0")) <= 0) {
-            taxRate = new BigDecimal("8.0");
+        if (profit.compareTo(threshold) > 0) {
+            tax1 = threshold.multiply(taxRate1).divide(new BigDecimal("100.0"));
+            profit = profit.subtract(threshold);
+        } else {
+            tax1 = profit.multiply(taxRate1).divide(new BigDecimal("100.0"));
+            profit = BigDecimal.ZERO;
         }
-        BigDecimal taxAmount = profitBeforeTax.multiply(taxRate).divide(new BigDecimal("100.0"));
+        if (profit.compareTo(threshold) > 0) {
+            tax2 = threshold.multiply(taxRate2).divide(new BigDecimal("100.0"));
+            profit = profit.subtract(threshold);
+        } else {
+            tax2 = profit.multiply(taxRate2).divide(new BigDecimal("100.0"));
+            profit = BigDecimal.ZERO;
+        }
+        if (profit.compareTo(BigDecimal.ZERO) > 0) {
+            tax3 = profit.multiply(taxRate3).divide(new BigDecimal("100.0"));
+        }
+
+        BigDecimal taxAmount = tax1.add(tax2).add(tax3);
         BigDecimal profitAfterTax = profitBeforeTax.subtract(taxAmount);
         System.out.println("Прибыль после налогов: " + profitAfterTax +
                 "\nприбыль до налогов: " + profitBeforeTax + "\nналог: " + taxAmount);
