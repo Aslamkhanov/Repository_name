@@ -22,12 +22,9 @@ public class Homework2 {
         //Это-шашлык-на-шампуре
         String result = new String();
         for (int i = 0; i < words.length; i++) {
-            String word = words[i].substring(0, words[i].length());
-            result += word;
-            if (i < words.length - 1) {
-                result += "-";
-            }
+            result += words[i] + "-";
         }
+        result = result.substring(0, result.length() - 1);
         System.out.println(result);
     }
 
