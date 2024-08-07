@@ -64,12 +64,12 @@ public class Homework2 {
         //Дан распределитель случайных чисел
         Random random = new Random(1);
         //Получение случайного числа
-        int number = random.nextInt(1000);
+        int number;
         int counter = 0;
-        while (number != 999) {
+        do {
             number = random.nextInt(1000);
             counter++;
-        }
+        } while (number != 999);
         System.out.println("Попытка № " + counter);
 
         //Написать код, генерирующий случайные числа до тех пор, пока не сгенерируется 999.
